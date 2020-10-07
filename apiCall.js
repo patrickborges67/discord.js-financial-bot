@@ -16,7 +16,7 @@ function formatDate(date) {
 }
 module.exports = {
         
-    async apiGet(symbol){
+     apiGet(symbol){
         try{
             var http = require('https');
             var date = new Date();
