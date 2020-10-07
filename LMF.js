@@ -18,7 +18,7 @@ bot.on('ready', ()=> {
     }, 1000 * 60 * 60 * 3);
 })
 
-bot.on('message', message => {
+bot.on('message', async message => {
     if(message.author.bot) return;
    
     const CompleteMessage = message.content.toUpperCase();
@@ -111,13 +111,19 @@ bot.on('message', message => {
         case 'teste':
                 
                 var time = new Date();
-                var fechamento =  api.apiGet(args[2]);
+                api.apiGet(args[2])
+                .then(fechamento =>{
+                     message.channel.send(fechamento);
+                }).catch(err=>{
+                    console.log(err);
+                });
                 
                 const msg =  message.channel.send( `${author} validando os dados `);
-                console.log('Fechamento Main '+ fechamento);
+                
                 var now = new Date();
                 timeMain = now.getMilliseconds() - time.getMilliseconds();
                 console.log('tempo pra mensagem ser enviada: '+ timeMain);
+                //console.log('Main fechamento: '+ fechamento);
                 
                 
             break; 
