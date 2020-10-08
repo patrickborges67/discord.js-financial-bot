@@ -12,37 +12,32 @@ bot.on('ready', ()=> {
     console.log('pronto');
     bot.user.setActivity('Estudando')
 
-    var testChannel = bot.channels.cache.find(channel => channel.id === config.bemVindoLobos)
-    setInterval(() => {
-        testChannel.send(" estou pronto ");
-    }, 1000 * 60 * 60 * 3);
+    // var testChannel = bot.channels.cache.find(channel => channel.id === config.bemVindoLobos)
+    // setInterval(() => {
+    //     testChannel.send(" estou pronto ");//mensagem enviada a cada 3h
+    // }, 1000 * 60 * 60 * 3);
 })
 
-bot.on('message', async message => {
+bot.on('message', message => {
     if(message.author.bot) return;
    
     const CompleteMessage = message.content.toUpperCase();
     if(CompleteMessage.indexOf(config.prefix) !== 0) return;
 
+    let realMessage = message.content.split(" ");
     let args = message.content.toLowerCase().split(" ");
     var author = message.author;
     var id = author.id;
     switch (args[1]) {
 
         case (!args[1]):
-            message.channel.send("Para acessar a lista de comandos digite !BULL help");
+            message.channel.send("Para acessar a lista de comandos digite !LMF help");
             break;
 
         case 'help':
             message.channel.send(
                 "comprar\nvender\ncarteira\nsaldo")
             break;
-
-        // case 'ping':
-        //     const ms = await message.channel.send("ping?");
-        //     const clientms = ms.createdTimestamp - message.createdTimestamp;
-        //     ms.edit('pong! Client ' + clientms);
-        //     break;
 
         case 'comprar'://!LMF comprar PETR4 3
                 message.channel.send('Parabens, você comprou 2 lotes de PETR4 e seu saldo agora é...');
@@ -109,25 +104,18 @@ bot.on('message', async message => {
             break; 
 
         case 'teste':
-                
-                var time = new Date();
-                api.apiGet(args[2])
-                .then(fechamento =>{
-                     message.channel.send(fechamento);
-                }).catch(err=>{
-                    console.log(err);
-                });
-                
-                const msg =  message.channel.send( `${author} validando os dados `);
-                
-                var now = new Date();
-                timeMain = now.getMilliseconds() - time.getMilliseconds();
-                console.log('tempo pra mensagem ser enviada: '+ timeMain);
-                //console.log('Main fechamento: '+ fechamento);
-                
-                
-            break; 
+                message.channel.send( `${author} validando os dados...`);
+                let fechamento = api.apiGet(args[2]);
+                var valorTotal = fechamento * args[3];
 
+                message.channel.send(`${author} parabéns, você comprou ${realMessage[3]} lotes de ${realMessage[2]} a ${fechamento} e utilizou o tal de R$ ${valorTotal} da sua carteira.`);
+
+                console.log('Main fechamento '+ fechamento);
+
+                //message.channel.send(`${author}, sua id é: `+ message.author.id);
+                 
+            break; 
+        
         default:
             message.channel.send("Para acessar a lista de comandos digite !LMF help");
             break;
