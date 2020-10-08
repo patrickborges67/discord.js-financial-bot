@@ -17,16 +17,9 @@ function formatDate(date) {
 }
 module.exports = {
         
-<<<<<<< HEAD
-     apiGet(symbol){
-        try{
-            var http = require('https');
-            var date = new Date();
-=======
     apiGet(symbol){
         
         var date = new Date();
->>>>>>> f8cbf9b6256e28fea118a0303298d39ce279d039
             
         if(date.getDay == 6 ){
             date.setDate(date.getDate()-1);// se for Sabado pegar os dados de Sexta
