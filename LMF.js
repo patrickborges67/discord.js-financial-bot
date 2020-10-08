@@ -18,7 +18,7 @@ bot.on('ready', ()=> {
     }, 1000 * 60 * 60 * 3);
 })
 
-bot.on('message', async message => {
+bot.on('message', message => {
     if(message.author.bot) return;
    
     const CompleteMessage = message.content.toUpperCase();
@@ -109,24 +109,13 @@ bot.on('message', async message => {
             break; 
 
         case 'teste':
-                
-                var time = new Date();
-                api.apiGet(args[2])
-                .then(fechamento =>{
-                     message.channel.send(fechamento);
-                }).catch(err=>{
-                    console.log(err);
-                });
-                
-                const msg =  message.channel.send( `${author} validando os dados `);
-                
-                var now = new Date();
-                timeMain = now.getMilliseconds() - time.getMilliseconds();
-                console.log('tempo pra mensagem ser enviada: '+ timeMain);
-                //console.log('Main fechamento: '+ fechamento);
-                
-                
+                message.channel.send( `${author} validando os dados...`);
+                let fechamento = api.apiGet(args[2]);
+                message.channel.send(`${author} parabéns, você comprou ${args[3]} lotes de ${args[2]}`);
+                console.log('Main fechamento '+ fechamento);
+                 
             break; 
+        
 
         default:
             message.channel.send("Para acessar a lista de comandos digite !LMF help");
