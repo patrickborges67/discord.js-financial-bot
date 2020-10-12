@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 const bot = new Discord.Client();
 const config = require('./config.json');
 const api = require('./apiCall.js');
+const models = require('./models/index')
 
 
 
@@ -40,13 +41,13 @@ bot.on('message', message => {
             break;
 
         case 'comprar'://!LMF comprar PETR4 3
-                message.channel.send('Parabens, você comprou 2 lotes de PETR4 e seu saldo agora é...');
+                //message.channel.send('Parabens, você comprou 2 lotes de PETR4 e seu saldo agora é...');
                 if(!args[2]){// Se não for informado o nome do ativo
                     message.channel.send('Por favor, informe qual ativo você quer comprar.');
                 } else {
                     //let ativo = ... buscar no BD e/ou API o ativo em questão
                     if(ativo == null){
-                        message.channel.send('Este ativo não foi encontrado. Use !LMF search "nome do ativo" para procurar a nomenclatura.');
+                        message.channel.send('Este ativo não foi encontrado. Use o nome do ativo + .SAO. Exemplo: PETR4.SAO');
                     } else if(!args[3]){// Se não for informado a quantidade para compra
                         message.channel.send('Por favor, informe a quantidade de lotes que deseja comprar.');
                     } else {
