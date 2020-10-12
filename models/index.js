@@ -7,3 +7,6 @@ const models = {
 }
 
 module.exports = models
+
+// models.user.sync({force: true})
+// models.carteira.sync({force: true})
