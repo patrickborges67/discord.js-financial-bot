@@ -1,10 +1,11 @@
 const Sequelize = require('sequelize');
+const config = require('./config.json');
 
 const sequelize = new Sequelize({
-    host: 'localhost',
-    database: 'FinanceiroTeste',
-    username: 'postgres',
-    password: '92424413',
+    host: config.DBHost,
+    database: config.DB,
+    username: config.DBUser,
+    password: config.DBPassword,
     dialect: 'postgres',
     port: 5432,
     logging: true
