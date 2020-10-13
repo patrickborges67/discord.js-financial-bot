@@ -19,7 +19,7 @@ bot.on('ready', ()=> {
     // }, 1000 * 60 * 60 * 3);
 })
 
-bot.on('message', message => {
+bot.on('message', async message => {
     if(message.author.bot) return;
    
     const CompleteMessage = message.content.toUpperCase();
@@ -55,6 +55,7 @@ bot.on('message', message => {
                         //saldo -= (ativo*args[2]);
                         //let carteira = buscar carteira do usuário no BD
                         //carteira = ... Se o usuário já tiver esse ativo somar os lotes, se não adicionar a carteira
+                        //models.carteira = ...
                         message.channel.send('Parabéns, você comprou '+args[3] + 'lotes de '+args[2]+' e seu saldo agora é '+saldo);
                     }
                 }
@@ -89,14 +90,28 @@ bot.on('message', message => {
             break; 
         case 'carteira':
                 let carteira = null;
-                //carteira = ... Busca pela carteira do usuário através do ID
-                if(carteira == null){
-                    // Cria carteira e cadastro do usuário através do ID
-                    message.channel.send('Parabéns, sua carteira foi criada!');
-                } else{
-                    message.channel.send( `${author} Sua carteira é composta por: `);
-                    //Busca e imprime a carteira do usuário
-                }
+                console.log(carteira);
+                carteira = models.carteira.findAll({
+                     where: {
+                    carteira_ID: id
+                    }
+                    });
+                carteira.then(cart => {
+                    console.log(cart);
+                    carteira = cart;
+                
+                    console.log(carteira);
+                    if(carteira == ''){
+                        models.carteira.create({
+                            carteira_ID: id,
+                            saldo: 100000,
+                        })
+                        message.channel.send('Parabéns, sua carteira foi criada!');
+                    } else{
+                        message.channel.send( `${author} Sua carteira é composta por: `);
+                        message.channel.send(carteira['dataValues']['ativos']);
+                    }
+                })
                 
             break; 
         case 'saldo':
