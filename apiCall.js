@@ -25,21 +25,25 @@ module.exports = {
             date.setDate(date.getDate()-1);// se for Sabado pegar os dados de Sexta
         } else if(date.getDay == 0){
             date.setDate(date.getDate()-2);// se for Domingo pegar os dados de Sexta
-        }else if(date.getHours > '18'){
+        }else if(date.getHours > '18' && date.getHours < '24'){
             console.log('Horario OK');// pegando os dados de hoje pois a bolsa já fechou
-                
         } else {
             date.setDate(date.getDate()-1);//Pegando os dados de ontem pois a bolsa ainda não fechou
         }
+         
+        try {
+            var time = new Date();
+            var url = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol='+symbol+'&apikey='+config.key;
+
+            var res = request('GET', url);
+            var api = JSON.parse(res.getBody());
+            var fechamento = api['Time Series (Daily)'][formatDate(date)]['4. close'];
             
-        var time = new Date();
-        var url = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol='+symbol+'&apikey='+config.key;
-            
-        var res = request('GET', url);
-        var api = JSON.parse(res.getBody());
-        var fechamento = api['Time Series (Daily)'][formatDate(date)]['4. close'];
-        
+        } catch (error) {
+            console.log(error)
+            fechamento = null;
+        }
+
         return fechamento;
-        
     }
 };

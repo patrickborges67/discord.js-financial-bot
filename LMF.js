@@ -139,17 +139,19 @@ bot.on('message', async message => {
 
         case 'teste':
                 message.channel.send( `${author} validando os dados...`);
+                
                 let fechamento = api.apiGet(args[2]);
-                var valorTotal = fechamento * args[3];
-
-                message.channel.send(`${author} parabéns, você comprou ${realMessage[3]} lotes de ${realMessage[2]} a ${fechamento} e utilizou o tal de R$ ${valorTotal} da sua carteira.`);
-
-                console.log('Main fechamento '+ fechamento);
-
-                //message.channel.send(`${author}, sua id é: `+ message.author.id);
-                 
-            break; 
-        
+                if(fechamento == null){
+                    message.channel.send('Este ativo não foi encontrado. Use o nome do ativo + .SAO. Exemplo: PETR4.SAO');
+                    break;
+                } else{
+                    fechamento = fechamento.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
+                    var valorTotal = fechamento * args[3];
+                    valorTotal = valorTotal.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
+                    message.channel.send(`${author} parabéns, você comprou ${realMessage[3]} lotes de ${realMessage[2]} a ${fechamento} e utilizou o total de ${valorTotal} da sua carteira.`);
+                    break; 
+                }
+                
         default:
             message.channel.send("Para acessar a lista de comandos digite !LMF help");
             break;
