@@ -91,27 +91,33 @@ bot.on('message', async message => {
         case 'carteira':
                 let carteira = null;
                 console.log(carteira);
-                carteira = models.carteira.findAll({
+                carteira =  models.carteira.findAll({
                      where: {
                     carteira_ID: id
-                    }
-                    });
+                    },
+                    raw: true,
+                    plain: true
+                });
                 carteira.then(cart => {
-                    console.log(cart);
-                    carteira = cart;
-                
-                    console.log(carteira);
-                    if(carteira == ''){
+                    var saldoString = JSON.stringify(cart);
+                    var saldo = JSON.parse(saldoString);
+                    saldo = JSON.parse(JSON.stringify(cart));
+                    const ativos = saldo.ativos;
+                    console.log(ativos);
+                    if(saldo == ''){
                         models.carteira.create({
                             carteira_ID: id,
                             saldo: 100000,
                         })
                         message.channel.send('Parabéns, sua carteira foi criada!');
-                    } else{
-                        message.channel.send( `${author} Sua carteira é composta por: `);
-                        message.channel.send(carteira['dataValues']['ativos']);
+                    } else if(ativos == null){
+                        message.channel.send( `${author} Sua carteira está vazia.`);
+                       
+                    } else {
+                        message.channel.send( `${author} Sua carteira é composta pelos seguintes ativos:`);
+                        message.channel.send(ativos);
                     }
-                })
+                });
                 
             break; 
         case 'saldo':
