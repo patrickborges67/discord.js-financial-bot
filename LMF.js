@@ -43,26 +43,53 @@ bot.on('message', async message => {
             break;
 
         case 'comprar'://!LMF comprar PETR4 3
-                //message.channel.send('Parabens, você comprou 2 lotes de PETR4 e seu saldo agora é...');
+                
                 if(!args[2]){// Se não for informado o nome do ativo
                     message.channel.send('Por favor, informe qual ativo você quer comprar.');
                 } else {
-                    //let ativo = ... buscar no BD e/ou API o ativo em questão
-                    if(ativo == null){
-                        message.channel.send('Este ativo não foi encontrado. Use o nome do ativo + .SAO. Exemplo: PETR4.SAO');
+                    message.channel.send( `${author} validando os dados...`);
+                    let ativo = api(args[2]);
+                    if(ativo == null){//Se o ativo não for encontrado
+                       message.channel.send('Este ativo não foi encontrado. Use o nome do ativo + .SAO. Exemplo: PETR4.SAO');
+                       break;
                     } else if(!args[3]){// Se não for informado a quantidade para compra
-                        message.channel.send('Por favor, informe a quantidade de lotes que deseja comprar.');
-                    } else {
-                        //let saldo = buscar o saldo do usuário no BD
-                        //saldo -= (ativo*args[2]);
-                        //let carteira = buscar carteira do usuário no BD
-                        //carteira = ... Se o usuário já tiver esse ativo somar os lotes, se não adicionar a carteira
-                        //models.carteira = ...
+                        message.channel.send('Por favor, informe a quantidade de lotes que deseja comprar. Exemplo: !LMF comprar PETR4.sao 3');
+                        break;
+                    } else {//Busca no BD o usuário
+                        valorCompra = args[3] * 100 * ativo
+                        carteira =  models.carteira.findAll({
+                            where: {
+                           discord_ID: id
+                           },
+                           raw: true,
+                           plain: true
+                       });
+                       carteira.then(cart => {
+                           var saldo = JSON.parse(JSON.stringify(cart));
+                           
+                           
+                           if(saldo == null ||saldo.saldo < valorCompra){
+                               
+                               message.channel.send(`${author}, você não tem saldo suficiente para essa compra.`);
+                           } else {//Verificar se o usuário já tem esse ativo e somar os lotes ou somente adicionar a carteira
+                               
+
+                           }
+                       });
+                        // var ativo = new String(realMessage[2].toUpperCase()).substring(0,5);                   
+                        // var valorTotal = fechamento * args[3];
+
+                        // fechamento = fechamento.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
+                        // valorTotal = valorTotal.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
+
+                        // message.channel.send(`${author} parabéns, você comprou ${realMessage[3]} lotes de ${ativo} a ${fechamento} e utilizou o total de ${valorTotal} do seu saldo.`);
+                        // break; 
+                        
                         message.channel.send('Parabéns, você comprou '+args[3] + 'lotes de '+args[2]+' e seu saldo agora é '+saldo);
                     }
                 }
             break; 
-        case 'vender':
+        case 'vender'://!LMF comprar PETR4 3
             if(!args[2]){// Se não for informado o nome do ativo
                 message.channel.send('Por favor, informe qual ativo você quer vender.');
             } else {
@@ -147,7 +174,7 @@ bot.on('message', async message => {
                     break;
                 } else{
                     var ativo = new String(realMessage[2].toUpperCase()).substring(0,5);                   
-                    var valorTotal = fechamento * args[3];
+                    var valorTotal = fechamento * args[3]*100;
 
                     fechamento = fechamento.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
                     valorTotal = valorTotal.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
