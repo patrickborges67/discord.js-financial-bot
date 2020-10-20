@@ -29,6 +29,7 @@ bot.on('message', async message => {
     let args = message.content.toLowerCase().split(" ");
     var author = message.author;
     var id = author.id;
+    let carteira = null;
     switch (args[1]) {
 
         case (!args[1]):
@@ -89,40 +90,51 @@ bot.on('message', async message => {
                 message.channel.send('Parabens, você vendeu 2 lotes de PETR4, lucrou 3,7% e seu saldo agora é...');
             break; 
         case 'carteira':
-                let carteira = null;
-                console.log(carteira);
                 carteira =  models.carteira.findAll({
                      where: {
-                    carteira_ID: id
+                    discord_ID: id
                     },
                     raw: true,
                     plain: true
                 });
                 carteira.then(cart => {
-                    var saldoString = JSON.stringify(cart);
-                    var saldo = JSON.parse(saldoString);
-                    saldo = JSON.parse(JSON.stringify(cart));
-                    const ativos = saldo.ativos;
-                    console.log(ativos);
-                    if(saldo == ''){
+                    var saldo = JSON.parse(JSON.stringify(cart));
+                    
+                    if(saldo == null){
                         models.carteira.create({
-                            carteira_ID: id,
+                            discord_ID: id,
+                            nome: author.username,
                             saldo: 100000,
                         })
                         message.channel.send('Parabéns, sua carteira foi criada!');
-                    } else if(ativos == null){
-                        message.channel.send( `${author} Sua carteira está vazia.`);
-                       
                     } else {
-                        message.channel.send( `${author} Sua carteira é composta pelos seguintes ativos:`);
-                        message.channel.send(ativos);
+                        if(saldo.ativos == null){
+                            var f = saldo.saldo.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
+                            message.channel.send( `${author} Seu saldo atual é: ${f}`);
+                            message.channel.send( `E Sua carteira está vazia.`);
+
+                        } else {
+                            var f = saldo.saldo.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
+                            message.channel.send( `${author} Seu saldo atual é: ${f}`);
+                            message.channel.send( `E Sua carteira é composta pelos seguintes ativos: ${saldo.ativos}`);
+                        }
                     }
                 });
                 
             break; 
         case 'saldo':
-                
-                message.channel.send( `${author} Seu saldo atual é de...`);
+            carteira =  models.carteira.findAll({
+                 where: {
+                discord_ID: id
+                },
+                raw: true,
+                plain: true
+            });
+            carteira.then(cart => {
+                var saldo = JSON.parse(JSON.stringify(cart));
+                var f = saldo.saldo.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
+                message.channel.send( `${author} Seu saldo atual é de ${f}`);
+            });
             break; 
 
         case 'teste':
