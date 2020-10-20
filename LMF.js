@@ -1,8 +1,9 @@
 const Discord = require('discord.js');
 const bot = new Discord.Client();
 const config = require('./config.json');
-const api = require('./apiCall.js');
-const models = require('./models/index')
+const api = require('./rest/apiCall.js');
+const models = require('./models/index');
+
 
 
 
@@ -140,7 +141,7 @@ bot.on('message', async message => {
         case 'teste'://Testando a o HTTP request na API 
                 message.channel.send( `${author} validando os dados...`);
                 
-                let fechamento = api.apiGet(args[2]);
+                let fechamento = api(args[2]);
                 if(fechamento == null){
                     message.channel.send('Este ativo não foi encontrado. Use o nome do ativo + .SAO. Exemplo: PETR4.SAO');
                     break;
