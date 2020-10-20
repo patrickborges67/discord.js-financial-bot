@@ -29,6 +29,7 @@ bot.on('message', async message => {
     let args = message.content.toLowerCase().split(" ");
     var author = message.author;
     var id = author.id;
+    let carteira = null;
     switch (args[1]) {
 
         case (!args[1]):
@@ -89,49 +90,71 @@ bot.on('message', async message => {
                 message.channel.send('Parabens, você vendeu 2 lotes de PETR4, lucrou 3,7% e seu saldo agora é...');
             break; 
         case 'carteira':
-                let carteira = null;
-                console.log(carteira);
-                carteira = models.carteira.findAll({
+                carteira =  models.carteira.findAll({
                      where: {
-                    carteira_ID: id
-                    }
-                    });
+                    discord_ID: id
+                    },
+                    raw: true,
+                    plain: true
+                });
                 carteira.then(cart => {
-                    console.log(cart);
-                    carteira = cart;
-                
-                    console.log(carteira);
-                    if(carteira == ''){
+                    var saldo = JSON.parse(JSON.stringify(cart));
+                    
+                    if(saldo == null){
                         models.carteira.create({
-                            carteira_ID: id,
+                            discord_ID: id,
+                            nome: author.username,
                             saldo: 100000,
                         })
                         message.channel.send('Parabéns, sua carteira foi criada!');
-                    } else{
-                        message.channel.send( `${author} Sua carteira é composta por: `);
-                        message.channel.send(carteira['dataValues']['ativos']);
+                    } else {
+                        if(saldo.ativos == null){
+                            var f = saldo.saldo.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
+                            message.channel.send( `${author} Seu saldo atual é: ${f}`);
+                            message.channel.send( `E Sua carteira está vazia.`);
+
+                        } else {
+                            var f = saldo.saldo.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
+                            message.channel.send( `${author} Seu saldo atual é: ${f}`);
+                            message.channel.send( `E Sua carteira é composta pelos seguintes ativos: ${saldo.ativos}`);
+                        }
                     }
-                })
+                });
                 
             break; 
         case 'saldo':
-                
-                message.channel.send( `${author} Seu saldo atual é de...`);
+            carteira =  models.carteira.findAll({
+                 where: {
+                discord_ID: id
+                },
+                raw: true,
+                plain: true
+            });
+            carteira.then(cart => {
+                var saldo = JSON.parse(JSON.stringify(cart));
+                var f = saldo.saldo.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
+                message.channel.send( `${author} Seu saldo atual é de ${f}`);
+            });
             break; 
 
-        case 'teste':
+        case 'teste'://Testando a o HTTP request na API 
                 message.channel.send( `${author} validando os dados...`);
+                
                 let fechamento = api.apiGet(args[2]);
-                var valorTotal = fechamento * args[3];
+                if(fechamento == null){
+                    message.channel.send('Este ativo não foi encontrado. Use o nome do ativo + .SAO. Exemplo: PETR4.SAO');
+                    break;
+                } else{
+                    var ativo = new String(realMessage[2].toUpperCase()).substring(0,5);                   
+                    var valorTotal = fechamento * args[3];
 
-                message.channel.send(`${author} parabéns, você comprou ${realMessage[3]} lotes de ${realMessage[2]} a ${fechamento} e utilizou o tal de R$ ${valorTotal} da sua carteira.`);
+                    fechamento = fechamento.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
+                    valorTotal = valorTotal.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
 
-                console.log('Main fechamento '+ fechamento);
+                    message.channel.send(`${author} parabéns, você comprou ${realMessage[3]} lotes de ${ativo} a ${fechamento} e utilizou o total de ${valorTotal} do seu saldo.`);
+                    break; 
+                }
 
-                //message.channel.send(`${author}, sua id é: `+ message.author.id);
-                 
-            break; 
-        
         default:
             message.channel.send("Para acessar a lista de comandos digite !LMF help");
             break;
