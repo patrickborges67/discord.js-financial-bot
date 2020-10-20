@@ -137,7 +137,7 @@ bot.on('message', async message => {
             });
             break; 
 
-        case 'teste':
+        case 'teste'://Testando a o HTTP request na API 
                 message.channel.send( `${author} validando os dados...`);
                 
                 let fechamento = api.apiGet(args[2]);
@@ -145,13 +145,16 @@ bot.on('message', async message => {
                     message.channel.send('Este ativo não foi encontrado. Use o nome do ativo + .SAO. Exemplo: PETR4.SAO');
                     break;
                 } else{
-                    fechamento = fechamento.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
+                    var ativo = new String(realMessage[2].toUpperCase()).substring(0,5);                   
                     var valorTotal = fechamento * args[3];
+
+                    fechamento = fechamento.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
                     valorTotal = valorTotal.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
-                    message.channel.send(`${author} parabéns, você comprou ${realMessage[3]} lotes de ${realMessage[2]} a ${fechamento} e utilizou o total de ${valorTotal} da sua carteira.`);
+
+                    message.channel.send(`${author} parabéns, você comprou ${realMessage[3]} lotes de ${ativo} a ${fechamento} e utilizou o total de ${valorTotal} do seu saldo.`);
                     break; 
                 }
-                
+
         default:
             message.channel.send("Para acessar a lista de comandos digite !LMF help");
             break;
