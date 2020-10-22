@@ -65,16 +65,38 @@ bot.on('message', async message => {
                            plain: true
                        });
                        carteira.then(cart => {
-                           var saldo = JSON.parse(JSON.stringify(cart));
+                            var saldo = JSON.parse(JSON.stringify(cart));
                            
                            
-                           if(saldo == null ||saldo.saldo < valorCompra){
+                            if(saldo == null ||saldo.saldo < valorCompra){
                                
-                               message.channel.send(`${author}, você não tem saldo suficiente para essa compra.`);
-                           } else {//Verificar se o usuário já tem esse ativo e somar os lotes ou somente adicionar a carteira
+                                message.channel.send(`${author}, você não tem saldo suficiente para essa compra.`);
+                                break;
+                            } else {
                                
+                                if(saldo.ativos == null){//Se não tiver nenhum ativo na conta, efetuar a compra
+                                    const t = await sequelize.transaction();
+                                    var ativo = new String(realMessage[2].toUpperCase()).substring(0,5);
+                                    var ativos = ativo + '/'; 
+                                    try {
+                                        const compra = await carteira.update({ativos: `${ativos}`}, {
+                                            where: {
+                                                discord_ID: id
+                                            }
+                                        }, {transaction: t});
+                                        await t.commit();
+                                        
+                                    } catch (error) {
+                                        await t.rollback();
+                                    }
 
-                           }
+                                } else{// verificar se ja existe esse ativo
+
+                                    var ativos = saldo.ativos
+                                   
+                                }
+
+                            }
                        });
                         // var ativo = new String(realMessage[2].toUpperCase()).substring(0,5);                   
                         // var valorTotal = fechamento * args[3];
