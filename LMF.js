@@ -3,6 +3,7 @@ const bot = new Discord.Client();
 const config = require('./config.json');
 const api = require('./rest/apiCall.js');
 const models = require('./models/index');
+const { values } = require('sequelize/types/lib/operators');
 
 
 
@@ -48,15 +49,15 @@ bot.on('message', async message => {
                     message.channel.send('Por favor, informe qual ativo você quer comprar.');
                 } else {
                     message.channel.send( `${author} validando os dados...`);
-                    let ativo = api(args[2]);
-                    if(ativo == null){//Se o ativo não for encontrado
+                    let fechamento = api(args[2]);
+                    if(fechamento == null){//Se o ativo não for encontrado
                        message.channel.send('Este ativo não foi encontrado. Use o nome do ativo + .SAO. Exemplo: PETR4.SAO');
                        break;
                     } else if(!args[3]){// Se não for informado a quantidade para compra
                         message.channel.send('Por favor, informe a quantidade de lotes que deseja comprar. Exemplo: !LMF comprar PETR4.sao 3');
                         break;
                     } else {//Busca no BD o usuário
-                        valorCompra = args[3] * 100 * ativo
+                        valorCompra = args[3] * 100 * fechamento
                         carteira =  models.carteira.findAll({
                             where: {
                            discord_ID: id
@@ -85,18 +86,59 @@ bot.on('message', async message => {
                                             discord_ID: id
                                         }
                                     });
-                                        
+                                    message.channel.send('Parabéns, você comprou '+args[3] + 'lotes de '+args[2]+' e seu saldo agora é '+saldoNovo);
                                         
                                      } catch (error) {
                                          console.log(error)
                                          //t.rollback();
                                      }
-                                    message.channel.send('Parabéns, você comprou '+args[3] + 'lotes de '+args[2]+' e seu saldo agora é '+saldoNovo);
+                            
 
                                 } else{// verificar se ja existe esse ativo
-
+                                    var ativo = new String(realMessage[2].toUpperCase()).substring(0,5);
                                     var ativos = saldo.ativos
-                                   
+                                    ativos = ativos.split("/");
+                                    ativos = ativos.split("=");
+                                    var map = new Map();
+                                    
+                                    for(var i=0;i<ativos.length;i+2){
+                                        map.set(ativos[i], ativos[i+1])
+                                    }
+                                    if(map.has(ativo)){
+                                        var quantidadeNova = map.get(ativo)+args[3];
+                                        map.delete(ativo);
+                                        map.set(ativo, quantidadeNova);
+                                        ativos = null;
+                                        map.forEach((value,key)=>{
+                                            ativos += key+'='+value+'/'
+                                        })
+                                        try {
+                                            var compra = models.carteira.update({ativos: `${ativos}`}, {
+                                                where: {
+                                                    discord_ID: id
+                                                }
+                                            });
+                                            message.channel.send('Parabéns, você comprou '+args[3] + 'lotes de '+ativo+' e seu saldo agora é '+saldoNovo);
+                                                
+                                        } catch (error) {
+                                            console.log(error)
+                                            //t.rollback();
+                                        }
+                                    } else {
+                                        var ativos = saldo.ativos;
+                                        try {
+                                            var compra = models.carteira.update({ativos: `${ativos}`}, {
+                                                where: {
+                                                    discord_ID: id
+                                                }
+                                            });
+                                            message.channel.send('Parabéns, você comprou '+args[3] + 'lotes de '+ativo+' e seu saldo agora é '+saldoNovo);
+                                                
+                                        } catch (error) {
+                                            console.log(error)
+                                            //t.rollback();
+                                        }
+                                    }
                                 }
 
                             }
