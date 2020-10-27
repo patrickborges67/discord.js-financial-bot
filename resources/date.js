@@ -16,16 +16,18 @@ module.exports = {
 
 
     validaPregao(date){
+        var hours = date.getHours();
         if(date.getDay == 6 ){
             date.setDate(date.getDate()-1);// se for Sabado pegar os dados de Sexta
         } else if(date.getDay == 0){
             date.setDate(date.getDate()-2);// se for Domingo pegar os dados de Sexta
-        }else if(date.getHours > '18' && date.getHours < '24'){
-            console.log('Horario OK');// pegando os dados de hoje pois a bolsa já fechou
+        }else if(hours > 18 & hours <= 23){
+           console.log('Horario OK');// pegando os dados de hoje pois a bolsa já fechou
         } else {
             date.setDate(date.getDate()-1);//Pegando os dados de ontem pois a bolsa ainda não fechou
         }
         return date;
+        
     }       
 
 }

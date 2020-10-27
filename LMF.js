@@ -71,24 +71,27 @@ bot.on('message', async message => {
                             if(saldo == null ||saldo.saldo < valorCompra){
                                
                                 message.channel.send(`${author}, você não tem saldo suficiente para essa compra.`);
-                                break;
+                                
                             } else {
                                
                                 if(saldo.ativos == null){//Se não tiver nenhum ativo na conta, efetuar a compra
-                                    const t = await sequelize.transaction();
+                                    // const t = sequelize.transaction();
                                     var ativo = new String(realMessage[2].toUpperCase()).substring(0,5);
-                                    var ativos = ativo + '/'; 
+                                    var ativos = ativo + '='+args[3]+'/'; 
+                                    var saldoNovo = saldo.saldo-valorCompra;
                                     try {
-                                        const compra = await carteira.update({ativos: `${ativos}`}, {
-                                            where: {
-                                                discord_ID: id
-                                            }
-                                        }, {transaction: t});
-                                        await t.commit();
+                                    var compra = models.carteira.update({ativos: `${ativos}`}, {
+                                        where: {
+                                            discord_ID: id
+                                        }
+                                    });
                                         
-                                    } catch (error) {
-                                        await t.rollback();
-                                    }
+                                        
+                                     } catch (error) {
+                                         console.log(error)
+                                         //t.rollback();
+                                     }
+                                    message.channel.send('Parabéns, você comprou '+args[3] + 'lotes de '+args[2]+' e seu saldo agora é '+saldoNovo);
 
                                 } else{// verificar se ja existe esse ativo
 
@@ -107,7 +110,7 @@ bot.on('message', async message => {
                         // message.channel.send(`${author} parabéns, você comprou ${realMessage[3]} lotes de ${ativo} a ${fechamento} e utilizou o total de ${valorTotal} do seu saldo.`);
                         // break; 
                         
-                        message.channel.send('Parabéns, você comprou '+args[3] + 'lotes de '+args[2]+' e seu saldo agora é '+saldo);
+                        //message.channel.send('Parabéns, você comprou '+args[3] + 'lotes de '+args[2]+' e seu saldo agora é '+saldo.saldo);
                     }
                 }
             break; 
