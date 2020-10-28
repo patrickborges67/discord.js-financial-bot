@@ -47,15 +47,16 @@ bot.on('message', async message => {
                 
                 if(!args[2]){// Se não for informado o nome do ativo
                     message.channel.send('Por favor, informe qual ativo você quer comprar.');
+
+                } else if(!args[3]){// Se não for informado a quantidade para compra
+                    message.channel.send('Por favor, informe a quantidade de lotes que deseja comprar. Exemplo: !LMF comprar PETR4.sao 3');
+                    break;
                 } else {
                     message.channel.send( `${author} validando os dados...`);
                     let fechamento = api(args[2]);
-                    if(fechamento == null){//Se o ativo não for encontrado
+                    if(fechamento == null){//Se o ativo não for encontrado no request da API
                        message.channel.send('Este ativo não foi encontrado. Use o nome do ativo + .SAO. Exemplo: PETR4.SAO');
                        break;
-                    } else if(!args[3]){// Se não for informado a quantidade para compra
-                        message.channel.send('Por favor, informe a quantidade de lotes que deseja comprar. Exemplo: !LMF comprar PETR4.sao 3');
-                        break;
                     } else {//Busca no BD o usuário
                         valorCompra = args[3] * 100 * fechamento
                         carteira =  models.carteira.findAll({
@@ -69,7 +70,7 @@ bot.on('message', async message => {
                             var saldo = JSON.parse(JSON.stringify(cart));
                            
                            
-                            if(saldo == null ||saldo.saldo < valorCompra){
+                            if(saldo == null || saldo.saldo < valorCompra){
                                
                                 message.channel.send(`${author}, você não tem saldo suficiente para essa compra.`);
                                 
