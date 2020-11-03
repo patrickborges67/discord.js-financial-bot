@@ -1,16 +1,29 @@
 const Sequelize = require('sequelize');
-//const config = require('../config.json');
 
 
-const sequelize = new Sequelize({
-    host: config.DBHost,
-    database: config.DB,
-    username: config.DBUser,
-    password: config.DBPassword,
-    dialect: 'postgres',
-    port: 5432,
-    logging: true
-});
+
+
+if(process.env.DATABASE_URL){
+    const sequelize = new Sequelize(process.env.DATABASE_URL, {
+        dialect:  'postgres',
+        protocol: 'postgres',
+        port:     match[4],
+        host:     match[3],
+        logging:  true 
+      })
+
+} else {
+    const sequelize = new Sequelize({
+        host: 'localhost',
+        database: 'postgres',
+        username: 'postgres',
+        password: 'postgres',
+        dialect: 'postgres',
+        port: 5432,
+        logging: true
+    });
+}
+
 
 module.exports = sequelize
 
