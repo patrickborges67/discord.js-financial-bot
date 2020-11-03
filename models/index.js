@@ -9,4 +9,4 @@ const models = {
 module.exports = models
 
 
-models.carteira.sync({force: true})
+//models.carteira.sync({force: true})
