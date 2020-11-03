@@ -1,12 +1,13 @@
 const Discord = require('discord.js');
 const bot = new Discord.Client();
-const config = require('./config.json');
+const token = process.env.DISCORD_TOKEN;
 const api = require('./rest/apiCall.js');
 const models = require('./models/index');
+const prefix = process.env.DISCORD_PREFIX;
 
 
 
-bot.login(config.token);
+bot.login(token);
 
 
 bot.on('ready', ()=> {
@@ -23,7 +24,7 @@ bot.on('message', async message => {
     if(message.author.bot) return;
    
     const CompleteMessage = message.content.toUpperCase();
-    if(CompleteMessage.indexOf(config.prefix) !== 0) return;
+    if(CompleteMessage.indexOf(prefix) !== 0) return;
 
     let realMessage = message.content.split(" ");
     let args = message.content.toLowerCase().split(" ");
