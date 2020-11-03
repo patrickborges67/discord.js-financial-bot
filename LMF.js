@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const bot = new Discord.Client();
-const token = 'NzAxMjI1MTU5NTE5ODk1NjMz.XpuY0g.14ZcGT03hlYkVgh_Aa2Dx8wok3Y';
+const token = process.env.DISCORD_TOKEN;
 const api = require('./rest/apiCall.js');
 const models = require('./models/index');
 const prefix = process.env.DISCORD_PREFIX;
