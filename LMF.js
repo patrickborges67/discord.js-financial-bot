@@ -3,8 +3,6 @@ const bot = new Discord.Client();
 const config = require('./config.json');
 const api = require('./rest/apiCall.js');
 const models = require('./models/index');
-const { values } = require('sequelize/types/lib/operators');
-
 
 
 

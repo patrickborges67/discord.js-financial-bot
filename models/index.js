@@ -1,8 +1,9 @@
 const sequelize = require('../dataBase/configDataBase');
+const heroku = require('../dataBase/herokuPG');
 
 const models = {
   carteira: require('./carteira'),
-  sequelize: sequelize
+  sequelize: heroku
 }
 
 module.exports = models
