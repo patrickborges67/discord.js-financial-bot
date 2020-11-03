@@ -1,4 +1,4 @@
-const sequelize = require('../dataBase/configDataBase');
+// const sequelize = require('../dataBase/configDataBase');
 const heroku = require('../dataBase/herokuPG');
 
 const models = {
