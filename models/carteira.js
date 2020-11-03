@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const sequelize = require('../dataBase/configDataBase.js');
+const sequelize = require('../dataBase/herokuPG.js');
 
 const Carteira = sequelize.define('carteiras', {
     discord_ID:{ 
