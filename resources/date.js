@@ -17,12 +17,13 @@ module.exports = {
 
     validaPregao(date){
         var hours = date.getHours();
+        console.log(hours+'Hrs')
         if(date.getDay == 6 ){
             date.setDate(date.getDate()-1);// se for Sabado pegar os dados de Sexta
         } else if(date.getDay == 0){
             date.setDate(date.getDate()-2);// se for Domingo pegar os dados de Sexta
         }else if(hours > 18 & hours <= 23){
-           console.log('Horario OK');// pegando os dados de hoje pois a bolsa já fechou
+           console.log('Horario OK, fechamento de hoje');// pegando os dados de hoje pois a bolsa já fechou
         } else {
             date.setDate(date.getDate()-1);//Pegando os dados de ontem pois a bolsa ainda não fechou
         }
