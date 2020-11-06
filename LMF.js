@@ -80,13 +80,17 @@ bot.on('message', async message => {
                                     var ativo = new String(realMessage[2].toUpperCase()).substring(0,5);
                                     var ativos = ativo + '='+args[3]+'/'; 
                                     var saldoNovo = saldo.saldo-valorCompra;
+                                    var saldoNovoFormatado = saldoNovo.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
                                     try {
-                                    var compra = models.carteira.update({ativos: `${ativos}`}, {
+                                    var compra = models.carteira.update({
+                                        ativos: ativos,
+                                        saldo: saldoNovo
+                                    }, {
                                         where: {
                                             discord_ID: id
                                         }
                                     });
-                                    message.channel.send('Parabéns, você comprou '+args[3] + 'lotes de '+args[2]+' e seu saldo agora é '+saldoNovo);
+                                    message.channel.send('Parabéns, você comprou '+args[3] + ' lotes de '+args[2]+' e seu saldo agora é '+compra.saldo.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}));
                                         
                                      } catch (error) {
                                          console.log(error)
@@ -113,12 +117,15 @@ bot.on('message', async message => {
                                             ativos += key+'='+value+'/'
                                         })
                                         try {
-                                            var compra = models.carteira.update({ativos: `${ativos}`}, {
+                                            var compra = models.carteira.update({
+                                                ativos: ativos,
+                                                saldo: saldoNovo
+                                            }, {
                                                 where: {
                                                     discord_ID: id
                                                 }
                                             });
-                                            message.channel.send('Parabéns, você comprou '+args[3] + 'lotes de '+ativo+' e seu saldo agora é '+saldoNovo);
+                                            message.channel.send('Parabéns, você comprou '+args[3] + ' lotes de '+ativo+' e seu saldo agora é '+compra.saldo.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}));
                                                 
                                         } catch (error) {
                                             console.log(error)
@@ -127,12 +134,15 @@ bot.on('message', async message => {
                                     } else {
                                         var ativos = saldo.ativos;
                                         try {
-                                            var compra = models.carteira.update({ativos: `${ativos}`}, {
+                                            var compra = models.carteira.update({
+                                                ativos: ativos,
+                                                saldo: saldoNovo
+                                            }, {
                                                 where: {
                                                     discord_ID: id
                                                 }
                                             });
-                                            message.channel.send('Parabéns, você comprou '+args[3] + 'lotes de '+ativo+' e seu saldo agora é '+saldoNovo);
+                                            message.channel.send('Parabéns, você comprou '+args[3] + 'lotes de '+ativo+' e seu saldo agora é '+compra.saldo.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}));
                                                 
                                         } catch (error) {
                                             console.log(error)
