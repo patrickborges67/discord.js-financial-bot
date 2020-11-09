@@ -101,7 +101,8 @@ bot.on('message', async message => {
                                 } else{// verificar se ja existe esse ativo
                                     var ativo = new String(realMessage[2].toUpperCase()).substring(0,5);
                                     var ativos = saldo.ativos
-                                    ativos = ativos.split("/");//TODO ativos.split is not a function
+                                    console.log("typeof ativos " + typeof(ativos))
+                                    ativos = ativos.stringify.split("/");//TODO ativos.split is not a function
                                     ativos = ativos.split("=");
                                     var map = new Map();
                                     
