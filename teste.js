@@ -19,7 +19,7 @@ const api = require('./rest/apiCall.js');
 //     console.log(`parabéns, você comprou ${quantidade} lotes de ${ativo} a ${fechamento} e utilizou o total de ${valorTotal} do seu saldo.`);
     
 // }
-const date = new Date();
+var date = new Date();
 console.log(date.toString())
 date.setHours(date.getHours - 4)
 console.log(date.toString())
