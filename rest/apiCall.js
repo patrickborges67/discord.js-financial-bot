@@ -7,7 +7,6 @@ const validDate = require('../resources/date')
 function apiGet(symbol){
     
     var date = new Date();
-    date.setHours(date.getHours - 4)
     date = validDate.validaPregao(date);
      
     try {
