@@ -96,7 +96,7 @@ bot.on('message', async message => {
                                          console.log(error)
                                          //t.rollback();
                                      }
-                                     break;
+                                    
 
                                 } else{// verificar se ja existe esse ativo
                                     var ativo = new String(realMessage[2].toUpperCase()).substring(0,5);
@@ -147,7 +147,7 @@ bot.on('message', async message => {
                                             console.log(error)
                                             //t.rollback();
                                         }
-                                        break;
+                                        
                                     } else {
                                         var ativos = saldo.ativos;
                                         try {
@@ -168,6 +168,7 @@ bot.on('message', async message => {
                                         }
                                     }
                                 }
+                                break;
 
                             }
                        });
