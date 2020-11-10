@@ -102,8 +102,8 @@ bot.on('message', async message => {
                                     var ativo = new String(realMessage[2].toUpperCase()).substring(0,5);
                                     var ativos = saldo.ativos
                                     var arrayAtivos = null;
-                                    arrayAtivos1 = ativos.split("/");//Cannot read property .split of undefined Porque? 
-                                    for(var j=0;j<arrayAtivos.length;j++){
+                                    var arrayAtivos1 = ativos.split("/");//Cannot read property .split of undefined Porque? 
+                                    for(var j=0;j<arrayAtivos1.length;j++){
                                         arrayAtivos += arrayAtivos1[j].split("=");
                                     }
                                     console.log(arrayAtivos)
