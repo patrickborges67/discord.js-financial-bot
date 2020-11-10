@@ -101,14 +101,17 @@ bot.on('message', async message => {
                                 } else{// verificar se ja existe esse ativo
                                     var ativo = new String(realMessage[2].toUpperCase()).substring(0,5);
                                     var ativos = saldo.ativos
-                                    arrayAtivos = ativos.split("/");//Cannot read property .split of undefined Porque? 
-                                    arrayAtivos = arrayAtivos.split("=");
+                                    var arrayAtivos = null;
+                                    arrayAtivos1 = ativos.split("/");//Cannot read property .split of undefined Porque? 
+                                    for(var j=0;j<arrayAtivos.length;j++){
+                                        arrayAtivos += arrayAtivos1[j].split("=");
+                                    }
                                     console.log(arrayAtivos)
                                     var map = new Map();
                                     console.log("tamanho do array " + arrayAtivos.length)
                                     
                                     for(var i=0;i<=arrayAtivos.length;i=i+2){
-                                        map.set(ativos[i], ativos[i+1])
+                                        map.set(arrayAtivos[i], arrayAtivos[i+1])
                                         console.log(map.get(i))
                                     }
                                     if(map.has(ativo)){
