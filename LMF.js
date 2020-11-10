@@ -80,7 +80,6 @@ bot.on('message', async message => {
                                     var ativo = new String(realMessage[2].toUpperCase()).substring(0,5);
                                     var ativos = ativo + '='+args[3]+'/'; 
                                     var saldoNovo = saldo.saldo-valorCompra;
-                                    var saldoNovoFormatado = saldoNovo.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
                                     try {
                                     var compra = models.carteira.update({
                                         ativos: ativos,
@@ -101,9 +100,10 @@ bot.on('message', async message => {
                                 } else{// verificar se ja existe esse ativo
                                     var ativo = new String(realMessage[2].toUpperCase()).substring(0,5);
                                     var ativos = saldo.ativos
-                                    var arrayAtivos1 = ativos.split("/");//Cannot read property .split of undefined Porque? 
+                                    var arrayAtivos1 = ativos.split("/");
                                     var arrayAtivos;
                                     var map = new Map();
+                                    console.log(arrayAtivos1);
                                     for(var j=1;j<arrayAtivos1.length;j++){
                                         arrayAtivos = arrayAtivos1[j].split("=");
                                         map.set(arrayAtivos[0], arrayAtivos[1]);
