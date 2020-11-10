@@ -89,19 +89,20 @@ bot.on('message', async message => {
                                             discord_ID: id
                                         }
                                     });
-                                    message.channel.send('Parabéns, você comprou '+args[3] + ' lotes de '+ativo+' e seu saldo agora é '+compra.saldo.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}));
-                                        
+                                    compra.then(cart => {
+                                        message.channel.send('Parabéns, você comprou '+args[3] + ' lotes de '+ativo+' e seu saldo agora é '+compra.saldo.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}));
+                                    });    
                                      } catch (error) {
                                          console.log(error)
                                          //t.rollback();
                                      }
-                            
+                                     break;
 
                                 } else{// verificar se ja existe esse ativo
                                     var ativo = new String(realMessage[2].toUpperCase()).substring(0,5);
                                     var ativos = saldo.ativos
                                     var arrayAtivos1 = ativos.split("/");
-                                    var arrayAtivos;
+                                    var arrayAtivos = new String();
                                     var map = new Map();
                                     console.log(arrayAtivos1);
                                     for(var j=0;j<arrayAtivos1.length;j++){
@@ -146,6 +147,7 @@ bot.on('message', async message => {
                                             console.log(error)
                                             //t.rollback();
                                         }
+                                        break;
                                     } else {
                                         var ativos = saldo.ativos;
                                         try {
