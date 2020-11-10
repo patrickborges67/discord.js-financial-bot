@@ -20,6 +20,6 @@ const api = require('./rest/apiCall.js');
     
 // }
 var date = new Date();
-console.log(date.toString())
+
 date.setHours(date.getHours - 4)
 console.log(date.toString())

@@ -102,14 +102,15 @@ bot.on('message', async message => {
                                     var ativo = new String(realMessage[2].toUpperCase()).substring(0,5);
                                     var ativos = saldo.ativos
                                     var arrayAtivos1 = ativos.split("/");
-                                    var arrayAtivos = new String();
+                                    let arrayAtivos = [];
                                     var map = new Map();
                                     console.log(arrayAtivos1);
                                     for(var j=0;j<arrayAtivos1.length;j++){
                                         arrayAtivos = arrayAtivos1[j].split("=");
-                                        
-                                        map.set(arrayAtivos[0], arrayAtivos[1]);
-                                        console.log("key = "+ arrayAtivos[0]+" value = "+ arrayAtivos[1])
+                                        if(!(arrayAtivos === '')){
+                                            map.set(arrayAtivos[0], arrayAtivos[1]);
+                                            console.log("key = "+ arrayAtivos[0]+" value = "+ arrayAtivos[1])
+                                        }
                                     }
                                     // console.log(arrayAtivos)
                                     // var map = new Map();
@@ -120,7 +121,7 @@ bot.on('message', async message => {
                                     // //     console.log(map.get(i))
                                     // // }
                                     if(map.has(ativo)){
-                                        var quantidadeNova = map.get(ativo)+args[3];
+                                        var quantidadeNova = Integer(map.get(ativo))+args[3];
                                         map.delete(ativo);
                                         map.set(ativo, quantidadeNova);
                                         ativos = null;
