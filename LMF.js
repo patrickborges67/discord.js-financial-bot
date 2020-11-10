@@ -254,9 +254,16 @@ bot.on('message', async message => {
                 plain: true
             });
             carteira.then(cart => {
-                var saldo = JSON.parse(JSON.stringify(cart));
-                var f = saldo.saldo.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
-                message.channel.send( `${author} Seu saldo atual é de ${f}`);
+                console.log(cart);
+                if(cart == null){
+                    message.channel.send(`${author} você não tem uma carteira. Crie uma com "LMF carteira`);
+
+                } else{
+                    var saldo = JSON.parse(JSON.stringify(cart));
+                    var f = saldo.saldo.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
+                    message.channel.send( `${author} Seu saldo atual é de ${f}`);
+                }
+                
             });
             break; 
 
