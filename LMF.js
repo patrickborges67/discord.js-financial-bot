@@ -106,6 +106,7 @@ bot.on('message', async message => {
                                     console.log(arrayAtivos1);
                                     for(var j=0;j<arrayAtivos1.length;j++){
                                         arrayAtivos = arrayAtivos1[j].split("=");
+                                        
                                         map.set(arrayAtivos[0], arrayAtivos[1]);
                                         console.log("key = "+ arrayAtivos[0]+" value = "+ arrayAtivos[1])
                                     }
@@ -123,8 +124,10 @@ bot.on('message', async message => {
                                         map.set(ativo, quantidadeNova);
                                         ativos = null;
                                         map.forEach((value,key)=>{
-                                            ativos += key+'='+value+'/'
+                                            ativos += key+'='+value+'/';
+                                            console.log(ativos);
                                         })
+                                        
                                         try {
                                             var compra = models.carteira.update({
                                                 ativos: ativos,
@@ -135,7 +138,7 @@ bot.on('message', async message => {
                                                 }
                                             });
                                             compra.then(cart => {
-                                                message.channel.send('Parabéns, você comprou '+args[3] + ' lotes de '+ativo+' e seu saldo agora é '+compra.saldo.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}));
+                                                message.channel.send('Parabéns, você comprou '+args[3] + ' lotes de '+ativo+' e seu saldo agora é '+saldoNovo.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}));
                                             });
                                             
                                                 
