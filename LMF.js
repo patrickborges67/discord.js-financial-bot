@@ -229,7 +229,7 @@ bot.on('message', async message => {
                             nome: author.username,
                             saldo: 100000,
                         })
-                        message.channel.send('Parabéns, sua carteira foi criada!');
+                        message.channel.send( `${author} Parabens, sua carteira foi criada!`);
                     } else {
                         if(saldo.ativos == null){
                             var f = saldo.saldo.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
