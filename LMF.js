@@ -104,7 +104,7 @@ bot.on('message', async message => {
                                     var arrayAtivos;
                                     var map = new Map();
                                     console.log(arrayAtivos1);
-                                    for(var j=1;j<arrayAtivos1.length;j++){
+                                    for(var j=0;j<arrayAtivos1.length;j++){
                                         arrayAtivos = arrayAtivos1[j].split("=");
                                         map.set(arrayAtivos[0], arrayAtivos[1]);
                                         console.log("key = "+ arrayAtivos[0]+" value = "+ arrayAtivos[1])
