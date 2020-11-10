@@ -23,7 +23,7 @@ bot.on('ready', ()=> {
 bot.on('message', async message => {
     if(message.author.bot) return;
    
-    const CompleteMessage = message.content.toUpperCase();
+    let CompleteMessage = message.content.toUpperCase();
     if(CompleteMessage.indexOf('!'+prefix) !== 0) return;
 
     let realMessage = message.content.split(" ");
