@@ -168,8 +168,6 @@ bot.on('message', async message => {
                                         }
                                     }
                                 }
-                                break;
-
                             }
                        });
                         // var ativo = new String(realMessage[2].toUpperCase()).substring(0,5);                   
