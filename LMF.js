@@ -101,19 +101,22 @@ bot.on('message', async message => {
                                 } else{// verificar se ja existe esse ativo
                                     var ativo = new String(realMessage[2].toUpperCase()).substring(0,5);
                                     var ativos = saldo.ativos
-                                    var arrayAtivos = null;
                                     var arrayAtivos1 = ativos.split("/");//Cannot read property .split of undefined Porque? 
-                                    for(var j=0;j<arrayAtivos1.length;j++){
-                                        arrayAtivos += arrayAtivos1[j].split("=");
-                                    }
-                                    console.log(arrayAtivos)
+                                    var arrayAtivos;
                                     var map = new Map();
-                                    console.log("tamanho do array " + arrayAtivos.length)
-                                    
-                                    for(var i=0;i<=arrayAtivos.length;i=i+2){
-                                        map.set(arrayAtivos[i], arrayAtivos[i+1])
-                                        console.log(map.get(i))
+                                    for(var j=1;j<arrayAtivos1.length;j++){
+                                        arrayAtivos = arrayAtivos1[j].split("=");
+                                        map.set(arrayAtivos[0], arrayAtivos[1]);
+                                        console.log("key = "+ arrayAtivos[0]+" value = "+ arrayAtivos[1])
                                     }
+                                    // console.log(arrayAtivos)
+                                    // var map = new Map();
+                                    // console.log("tamanho do array " + arrayAtivos.length())
+                                    
+                                    // // for(var i=0;i<=arrayAtivos.length;i=i+2){
+                                    // //     map.set(arrayAtivos[i], arrayAtivos[i+1])
+                                    // //     console.log(map.get(i))
+                                    // // }
                                     if(map.has(ativo)){
                                         var quantidadeNova = map.get(ativo)+args[3];
                                         map.delete(ativo);
@@ -123,7 +126,7 @@ bot.on('message', async message => {
                                             ativos += key+'='+value+'/'
                                         })
                                         try {
-                                            var compra = models.carteira.update({
+                                            var compra = await models.carteira.update({
                                                 ativos: ativos,
                                                 saldo: saldoNovo
                                             }, {
@@ -140,7 +143,7 @@ bot.on('message', async message => {
                                     } else {
                                         var ativos = saldo.ativos;
                                         try {
-                                            var compra = models.carteira.update({
+                                            var compra = await models.carteira.update({
                                                 ativos: ativos,
                                                 saldo: saldoNovo
                                             }, {
