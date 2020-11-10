@@ -101,9 +101,9 @@ bot.on('message', async message => {
                                 } else{// verificar se ja existe esse ativo
                                     var ativo = new String(realMessage[2].toUpperCase()).substring(0,5);
                                     var ativos = saldo.ativos
-                                    console.log("typeof ativos " + typeof(ativos))
-                                    ativos = ativos.stringify.split("/");//TODO ativos.split is not a function
-                                    ativos = ativos.split("=");
+                                    console.log("typeof ativos " + typeof(ativos))//String
+                                    ativos.split("/");//Cannot read property .split of undefined Porque? 
+                                    ativos.split("=");
                                     var map = new Map();
                                     
                                     for(var i=0;i<ativos.length;i+2){
