@@ -10,7 +10,6 @@ function apiGet(symbol){
     date = validDate.validaPregao(date);
      
     try {
-        console.log(validDate.formatDate(date))
         var url = 'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol='+symbol+'&apikey='+apiKey;
         var res = request('GET', url);
         var api = JSON.parse(res.getBody());

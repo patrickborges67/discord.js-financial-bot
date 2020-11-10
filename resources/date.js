@@ -18,8 +18,7 @@ module.exports = {
     validaPregao(date){
         var hours = date.getHours();
         var diaSemana = date.getDay();
-        console.log(hours+'Hrs')
-        console.log("Dia " + date.getDay())
+        
         if(diaSemana == 6 ){
             date.setDate(date.getDate()-1);// se for Sabado pegar os dados de Sexta
         } else if(diaSemana == 0){
