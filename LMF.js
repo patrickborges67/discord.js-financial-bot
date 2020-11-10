@@ -126,7 +126,7 @@ bot.on('message', async message => {
                                             ativos += key+'='+value+'/'
                                         })
                                         try {
-                                            var compra = await models.carteira.update({
+                                            var compra = models.carteira.update({
                                                 ativos: ativos,
                                                 saldo: saldoNovo
                                             }, {
@@ -134,7 +134,10 @@ bot.on('message', async message => {
                                                     discord_ID: id
                                                 }
                                             });
-                                            message.channel.send('Parabéns, você comprou '+args[3] + ' lotes de '+ativo+' e seu saldo agora é '+compra.saldo.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}));
+                                            compra.then(cart => {
+                                                message.channel.send('Parabéns, você comprou '+args[3] + ' lotes de '+ativo+' e seu saldo agora é '+compra.saldo.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}));
+                                            });
+                                            
                                                 
                                         } catch (error) {
                                             console.log(error)
@@ -143,7 +146,7 @@ bot.on('message', async message => {
                                     } else {
                                         var ativos = saldo.ativos;
                                         try {
-                                            var compra = await models.carteira.update({
+                                            var compra = models.carteira.update({
                                                 ativos: ativos,
                                                 saldo: saldoNovo
                                             }, {
@@ -151,8 +154,9 @@ bot.on('message', async message => {
                                                     discord_ID: id
                                                 }
                                             });
-                                            message.channel.send('Parabéns, você comprou '+args[3] + 'lotes de '+ativo+' e seu saldo agora é '+compra.saldo.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}));
-                                                
+                                            compra.then(cart => {
+                                                message.channel.send('Parabéns, você comprou '+args[3] + ' lotes de '+ativo+' e seu saldo agora é '+compra.saldo.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}));
+                                            }); 
                                         } catch (error) {
                                             console.log(error)
                                             //t.rollback();
