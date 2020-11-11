@@ -57,7 +57,7 @@ bot.on('message', async message => {
                        message.channel.send('Este ativo não foi encontrado. Use o nome do ativo + .SAO. Exemplo: PETR4.SAO');
                        break;
                     } else {//Busca no BD o usuário
-                        valorCompra = args[3] * 100 * fechamento
+                        let valorCompra = args[3] * 100 * fechamento
                         carteira =  models.carteira.findAll({
                             where: {
                            discord_ID: id
@@ -100,9 +100,9 @@ bot.on('message', async message => {
 
                                 } else{// verificar se ja existe esse ativo
                                     var ativo = new String(realMessage[2].toUpperCase()).substring(0,5);
-                                    var ativos = saldo.ativos
+                                    let ativos = saldo.ativos
                                     var arrayAtivos1 = ativos.split("/");
-                                    let arrayAtivos = [];
+                                    let arrayAtivos = new String();
                                     var map = new Map();
                                     console.log(arrayAtivos1);
                                     for(var j=0;j<arrayAtivos1.length;j++){
@@ -121,7 +121,7 @@ bot.on('message', async message => {
                                     // //     console.log(map.get(i))
                                     // // }
                                     if(map.has(ativo)){
-                                        var quantidadeNova = Integer(map.get(ativo))+args[3];
+                                        let quantidadeNova = map.get(ativo).parseInt()+args[3];
                                         map.delete(ativo);
                                         map.set(ativo, quantidadeNova);
                                         ativos = null;
@@ -150,7 +150,7 @@ bot.on('message', async message => {
                                         }
                                         
                                     } else {
-                                        var ativos = saldo.ativos;
+                                        let ativos = saldo.ativos;
                                         try {
                                             var compra = models.carteira.update({
                                                 ativos: ativos,
@@ -198,16 +198,16 @@ bot.on('message', async message => {
                     message.channel.send('Por favor, informe a quantidade de lotes que deseja vender.');
                 } else {
                     //let quantidadeCarteira = buscar a quantidade de ativos que o usuario escolheu pra venda
-                    if(quantidadeCarteira >= args[3]){
+                    //if(quantidadeCarteira >= args[3]){
 
-                    } else{
+                    //} else{
                         message.channel.send('você não tem ativos suficientes para essa venda')
-                    }
+                    // }
                     //let saldo = buscar o saldo do usuário no BD
                     //saldo = 
                     
                     //carteira = ... Se o usuário já tiver esse ativo somar os lotes, se não adicionar a carteira
-                    message.channel.send('Parabéns, você vendeu '+args[3] + 'lotes de '+args[2]+' e seu saldo agora é '+saldo);
+                    //message.channel.send('Parabéns, você vendeu '+args[3] + 'lotes de '+args[2]+' e seu saldo agora é '+saldo);
                 }
             }
                 message.channel.send('Parabens, você vendeu 2 lotes de PETR4, lucrou 3,7% e seu saldo agora é...');
@@ -279,9 +279,9 @@ bot.on('message', async message => {
                     var valorTotal = fechamento * args[3]*100;
 
                     fechamento = fechamento.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
-                    valorTotal = valorTotal.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
+                    let valorTotalFormatado = valorTotal.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
 
-                    message.channel.send(`${author} parabéns, você comprou ${realMessage[3]} lotes de ${ativo} a ${fechamento} e utilizou o total de ${valorTotal} do seu saldo.`);
+                    message.channel.send(`${author} parabéns, você comprou ${realMessage[3]} lotes de ${ativo} a ${fechamento} e utilizou o total de ${valorTotalFormatado} do seu saldo.`);
                     break; 
                 }
 
