@@ -1,13 +1,22 @@
 const Discord = require('discord.js');
 const bot = new Discord.Client();
-const token = process.env.DISCORD_TOKEN;
 const api = require('./rest/apiCall.js');
 const models = require('./models/index');
-const prefix = process.env.DISCORD_PREFIX;
 
-
-
-bot.login(token);
+if(process.env.DISCORD_TOKEN){
+    const token = process.env.DISCORD_TOKEN;
+    bot.login(token);
+} else {
+    let config = require ('./config.json')
+    const token = config.token
+    bot.login(token);
+}
+if(process.env.DISCORD_PREFIX){
+    const prefix = process.env.DISCORD_PREFIX;;
+} else {
+    let config = require ('./config.json')
+    const prefix = config.prefix
+}
 
 
 bot.on('ready', ()=> {
@@ -79,7 +88,7 @@ bot.on('message', async message => {
                                     // const t = sequelize.transaction();
                                     var ativo = new String(realMessage[2].toUpperCase()).substring(0,5);
                                     var ativos = ativo + '='+args[3]+'/'; 
-                                    var saldoNovo = saldo.saldo-valorCompra;
+                                    let saldoNovo = saldo.saldo-valorCompra;
                                     try {
                                     const compra = models.carteira.update({
                                         ativos: ativos,
@@ -105,8 +114,7 @@ bot.on('message', async message => {
                                     let arrayAtivos = new String();
                                     var map = new Map();
                                     console.log(arrayAtivos1);
-                                    arrayAtivos1.splice(arrayAtivos1.length()-1, 1)
-                                    console.log("SplicedArray", arrayAtivos1)
+                                    arrayAtivos1.splice(arrayAtivos1.length-1, 1);
                                     for(var j=0;j<arrayAtivos1.length;j++){
                                         arrayAtivos = arrayAtivos1[j].split("=");
                                         
@@ -116,17 +124,18 @@ bot.on('message', async message => {
                                         }
                                     }
                                     if(map.has(ativo)){
-                                        const quantidadeNova = Number.parseInt(map.get(ativo), 10)+args[3];
+                                        const quantidadeNova = Number.parseInt(map.get(ativo), 10)+Number.parseInt(args[3], 10);
                                         console.log("Quantidade nova compra ", quantidadeNova)
                                         map.delete(ativo);
                                         map.set(ativo, quantidadeNova);
-                                        ativos = null;
+                                        ativos = '';
                                         map.forEach((value,key)=>{
                                             ativos += key+'='+value+'/';
                                             console.log(ativos);
                                         })
                                         
                                         try {
+                                            let saldoNovo = saldo.saldo-valorCompra;
                                             const compra = models.carteira.update({
                                                 ativos: ativos,
                                                 saldo: saldoNovo
@@ -135,9 +144,8 @@ bot.on('message', async message => {
                                                     discord_ID: id
                                                 }
                                             });
-                                            compra.then(cart => {
-                                                message.channel.send('Parabéns, você comprou '+args[3] + ' lotes de '+ativo+' e seu saldo agora é '+saldoNovo.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}));
-                                            });
+                                            message.channel.send('Parabéns, você comprou '+args[3] + ' lotes de '+ativo+' e seu saldo agora é '+saldoNovo.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}));
+                                            
                                             
                                                 
                                         } catch (error) {
@@ -146,7 +154,9 @@ bot.on('message', async message => {
                                         }
                                         
                                     } else {
+                                        let saldoNovo = saldo.saldo-valorCompra;
                                         let ativos = saldo.ativos;
+                                        ativos += ativo+'='+args[3]+'/';
                                         try {
                                             const compra = models.carteira.update({
                                                 ativos: ativos,
