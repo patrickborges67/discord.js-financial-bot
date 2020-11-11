@@ -3,39 +3,6 @@ const pg = require('pg');
 var heroku = process.env.DATABASE_URL;
 
 
-
-
-// if(process.env.DATABASE_URL){
-//     const sequelize = new Sequelize(process.env.DATABASE_URL, {
-//         dialect:  'postgres',
-//         protocol: 'postgres',
-//         port:     match[4],
-//         host:     '5432',
-//         logging:  true 
-//       })
-
-// } else {
-    // const sequelize = new Sequelize({
-    //     host: 'localhost',
-    //     database: 'postgres',
-    //     username: 'postgres',
-    //     password: 'postgres',
-    //     dialect: 'postgres',
-    //     port: 5432,
-    //     logging: true
-    // });
-// }
-
-// sequelize = new Sequelize({
-//     host: 'localhost',
-//     database: 'postgres',
-//     username: 'postgres',
-//     password: 'postgres',
-//     dialect: 'postgres',
-//     port: 5432,
-//     logging: true
-// });
-console.log(heroku);
 if(heroku){
     sequelize = new Sequelize(heroku, {
         dialect:  'postgres',
