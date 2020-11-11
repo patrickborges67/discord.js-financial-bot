@@ -106,6 +106,7 @@ bot.on('message', async message => {
                                     var map = new Map();
                                     console.log(arrayAtivos1);
                                     arrayAtivos1.splice(arrayAtivos1.length()-1, 1)
+                                    console.log("SplicedArray", arrayAtivos1)
                                     for(var j=0;j<arrayAtivos1.length;j++){
                                         arrayAtivos = arrayAtivos1[j].split("=");
                                         
@@ -116,6 +117,7 @@ bot.on('message', async message => {
                                     }
                                     if(map.has(ativo)){
                                         const quantidadeNova = Number.parseInt(map.get(ativo), 10)+args[3];
+                                        console.log("Quantidade nova compra ", quantidadeNova)
                                         map.delete(ativo);
                                         map.set(ativo, quantidadeNova);
                                         ativos = null;
