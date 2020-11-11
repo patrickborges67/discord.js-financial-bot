@@ -14,22 +14,23 @@ if(process.env.DISCORD_TOKEN){
 if(process.env.DISCORD_PREFIX){
     const prefix = process.env.DISCORD_PREFIX;;
 } else {
-    let config = require ('./config.json')
+    let config = require ('./config.json')//TODO transformar em variavel de escopo
     const prefix = config.prefix
 }
-let config = require ('./config.json')
-const prefix = config.prefix
 
 
-bot.on('ready', ()=> {
-    console.log('pronto');
-    bot.user.setActivity('Estudando')
 
-    // var testChannel = bot.channels.cache.find(channel => channel.id === config.bemVindoLobos)
-    // setInterval(() => {
-    //     testChannel.send(" estou pronto ");//mensagem enviada a cada 3h
-    // }, 1000 * 60 * 60 * 3);
-})
+bot.on('ready', () => {
+    console.log("pronto")
+    bot.user.setPresence({
+        status: 'online',
+        activity: {
+            name: 'Liga do Mercado Financeiro da UFMS',
+            type: 'WATCHING',
+            url: 'https://www.youtube.com/watch?v=sTX0UEplF54'
+        }
+    })
+});
 
 bot.on('message', async message => {
     if(message.author.bot) return;
@@ -100,6 +101,12 @@ bot.on('message', async message => {
                                             discord_ID: id
                                         }
                                     });
+                                    models.transacao.create({
+                                        discord_ID: id,
+                                        tipo: "compra",
+                                        valor: valorCompra,
+                                        ativo: ativo,
+                                    })
                                     
                                     message.channel.send('Parabéns, você comprou '+args[3] + ' lotes de '+ativo+' e seu saldo agora é '+saldoNovo.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}));
                                     
@@ -146,6 +153,12 @@ bot.on('message', async message => {
                                                     discord_ID: id
                                                 }
                                             });
+                                            models.transacao.create({
+                                                discord_ID: id,
+                                                tipo: "compra",
+                                                valor: valorCompra,
+                                                ativo: ativo,
+                                            })
                                             message.channel.send('Parabéns, você comprou '+args[3] + ' lotes de '+ativo+' e seu saldo agora é '+saldoNovo.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}));
                                             
                                             
@@ -168,6 +181,12 @@ bot.on('message', async message => {
                                                     discord_ID: id
                                                 }
                                             });
+                                            models.transacao.create({
+                                                discord_ID: id,
+                                                tipo: "compra",
+                                                valor: valorCompra,
+                                                ativo: ativo,
+                                            })
                                             
                                             message.channel.send('Parabéns, você comprou '+args[3] + ' lotes de '+ativo+' e seu saldo agora é '+saldoNovo.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}));
                                             
@@ -265,6 +284,12 @@ bot.on('message', async message => {
                                                 discord_ID: id
                                             }
                                         });
+                                        models.transacao.create({
+                                            discord_ID: id,
+                                            tipo: "venda",
+                                            valor: valorVenda,
+                                            ativo: ativo,
+                                        })
                                         message.channel.send('Parabéns, você vendeu '+args[3] + ' lotes de '+ativo+' e seu saldo agora é '+saldoNovo.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}));
                                         
                                         
@@ -291,6 +316,12 @@ bot.on('message', async message => {
                                                 discord_ID: id
                                             }
                                         });
+                                        models.transacao.create({
+                                            discord_ID: id,
+                                            tipo: "venda",
+                                            valor: valorVenda,
+                                            ativo: ativo,
+                                        })
                                         message.channel.send('Parabéns, você vendeu '+args[3] + ' lotes de '+ativo+' e seu saldo agora é '+saldoNovo.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}));
                                         
                                         
