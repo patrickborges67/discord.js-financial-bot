@@ -107,19 +107,12 @@ bot.on('message', async message => {
                                     console.log(arrayAtivos1);
                                     for(var j=0;j<arrayAtivos1.length;j++){
                                         arrayAtivos = arrayAtivos1[j].split("=");
-                                        if(!(arrayAtivos[1] == '') & !(arrayAtivos[2] == undefined)){
-                                            map.set(arrayAtivos[0], arrayAtivos[1]);
-                                            console.log("key = "+ arrayAtivos[0]+" value = "+ arrayAtivos[1])
-                                        }
+                                        arrayAtivos.splice(arrayAtivos.lastIndexOf(''), 1);
+                                        
+                                        map.set(arrayAtivos[0], arrayAtivos[1]);
+                                        console.log("key = "+ arrayAtivos[0]+" value = "+ arrayAtivos[1])
+                                        
                                     }
-                                    // console.log(arrayAtivos)
-                                    // var map = new Map();
-                                    // console.log("tamanho do array " + arrayAtivos.length())
-                                    
-                                    // // for(var i=0;i<=arrayAtivos.length;i=i+2){
-                                    // //     map.set(arrayAtivos[i], arrayAtivos[i+1])
-                                    // //     console.log(map.get(i))
-                                    // // }
                                     if(map.has(ativo)){
                                         const quantidadeNova = Number.parseInt(map.get(ativo), 10)+args[3];
                                         map.delete(ativo);
@@ -160,9 +153,9 @@ bot.on('message', async message => {
                                                     discord_ID: id
                                                 }
                                             });
-                                            compra.then(cart => {
-                                                message.channel.send('Parabéns, você comprou '+args[3] + ' lotes de '+ativo+' e seu saldo agora é '+compra.saldo.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}));
-                                            }); 
+                                            
+                                            message.channel.send('Parabéns, você comprou '+args[3] + ' lotes de '+ativo+' e seu saldo agora é '+saldoNovo.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}));
+                                            
                                         } catch (error) {
                                             console.log(error)
                                             //t.rollback();
