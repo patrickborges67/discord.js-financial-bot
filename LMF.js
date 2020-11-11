@@ -89,9 +89,9 @@ bot.on('message', async message => {
                                             discord_ID: id
                                         }
                                     });
-                                    compra.then(cart => {
-                                        message.channel.send('Parabéns, você comprou '+args[3] + ' lotes de '+ativo+' e seu saldo agora é '+compra.saldo.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}));
-                                    });    
+                                    
+                                    message.channel.send('Parabéns, você comprou '+args[3] + ' lotes de '+ativo+' e seu saldo agora é '+saldoNovo.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}));
+                                    
                                      } catch (error) {
                                          console.log(error)
                                          //t.rollback();
