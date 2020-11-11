@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 const bot = new Discord.Client();
 const api = require('./rest/apiCall.js');
 const models = require('./models/index');
+const prefix = process.env.DISCORD_PREFIX;;
 
 if(process.env.DISCORD_TOKEN){
     const token = process.env.DISCORD_TOKEN;
@@ -11,12 +12,12 @@ if(process.env.DISCORD_TOKEN){
     const token = config.token
     bot.login(token);
 }
-if(process.env.DISCORD_PREFIX){
-    const prefix = process.env.DISCORD_PREFIX;;
-} else {
-    let config = require ('./config.json')//TODO transformar em variavel de escopo
-    const prefix = config.prefix
-}
+// if(process.env.DISCORD_PREFIX){
+//     const prefix = process.env.DISCORD_PREFIX;;
+// } else {
+//     let config = require ('./config.json')//TODO transformar em variavel de escopo
+//     const prefix = config.prefix
+// }
 
 
 
