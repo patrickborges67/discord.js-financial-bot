@@ -121,7 +121,7 @@ bot.on('message', async message => {
                                     // //     console.log(map.get(i))
                                     // // }
                                     if(map.has(ativo)){
-                                        let quantidadeNova = map.get(ativo).parseInt()+args[3];
+                                        let quantidadeNova = Number.parseInt(map.get(ativo), 10)+args[3];
                                         map.delete(ativo);
                                         map.set(ativo, quantidadeNova);
                                         ativos = null;
