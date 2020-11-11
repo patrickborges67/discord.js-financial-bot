@@ -4,8 +4,7 @@ const sequelize = require('../dataBase/configDataBase.js');
 const Transacao = sequelize.define('transacoe', {
     discord_ID:{ 
         type: Sequelize.BIGINT,
-        allowNull: false,
-        primaryKey: true     
+        allowNull: false,   
     },
     tipo: {
         type: Sequelize.STRING
