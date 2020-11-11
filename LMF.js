@@ -58,7 +58,7 @@ bot.on('message', async message => {
                        break;
                     } else {//Busca no BD o usuário
                         let valorCompra = args[3] * 100 * fechamento
-                        carteira =  models.carteira.findAll({
+                        const carteira =  models.carteira.findAll({
                             where: {
                            discord_ID: id
                            },
@@ -81,7 +81,7 @@ bot.on('message', async message => {
                                     var ativos = ativo + '='+args[3]+'/'; 
                                     var saldoNovo = saldo.saldo-valorCompra;
                                     try {
-                                    var compra = models.carteira.update({
+                                    const compra = models.carteira.update({
                                         ativos: ativos,
                                         saldo: saldoNovo
                                     }, {
@@ -107,7 +107,7 @@ bot.on('message', async message => {
                                     console.log(arrayAtivos1);
                                     for(var j=0;j<arrayAtivos1.length;j++){
                                         arrayAtivos = arrayAtivos1[j].split("=");
-                                        if(!(arrayAtivos === '')){
+                                        if(!(arrayAtivos[1] == '') & !(arrayAtivos[2] == undefined)){
                                             map.set(arrayAtivos[0], arrayAtivos[1]);
                                             console.log("key = "+ arrayAtivos[0]+" value = "+ arrayAtivos[1])
                                         }
@@ -131,7 +131,7 @@ bot.on('message', async message => {
                                         })
                                         
                                         try {
-                                            var compra = models.carteira.update({
+                                            const compra = models.carteira.update({
                                                 ativos: ativos,
                                                 saldo: saldoNovo
                                             }, {
@@ -152,7 +152,7 @@ bot.on('message', async message => {
                                     } else {
                                         let ativos = saldo.ativos;
                                         try {
-                                            var compra = models.carteira.update({
+                                            const compra = models.carteira.update({
                                                 ativos: ativos,
                                                 saldo: saldoNovo
                                             }, {
