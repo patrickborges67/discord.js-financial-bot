@@ -105,13 +105,14 @@ bot.on('message', async message => {
                                     let arrayAtivos = new String();
                                     var map = new Map();
                                     console.log(arrayAtivos1);
+                                    arrayAtivos1.splice(arrayAtivos1.length()-1, 1)
                                     for(var j=0;j<arrayAtivos1.length;j++){
                                         arrayAtivos = arrayAtivos1[j].split("=");
-                                        arrayAtivos.splice(arrayAtivos.lastIndexOf(''), 1);
                                         
-                                        map.set(arrayAtivos[0], arrayAtivos[1]);
-                                        console.log("key = "+ arrayAtivos[0]+" value = "+ arrayAtivos[1])
-                                        
+                                        if((arrayAtivos[1] != '') && !(arrayAtivos[2] != undefined)){
+                                            map.set(arrayAtivos[0], arrayAtivos[1]);
+                                            console.log("key = "+ arrayAtivos[0]+" value = "+ arrayAtivos[1])
+                                        }
                                     }
                                     if(map.has(ativo)){
                                         const quantidadeNova = Number.parseInt(map.get(ativo), 10)+args[3];
