@@ -1,1 +1,1 @@
-worker: node LMF.js
+worker: node LMF.ts
