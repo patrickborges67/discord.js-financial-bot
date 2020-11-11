@@ -105,7 +105,7 @@ bot.on('message', async message => {
                                     models.transacao.create({
                                         discord_ID: id,
                                         tipo: "compra",
-                                        valor: valorCompra,
+                                        valorTransacao: valorCompra,
                                         ativo: ativo,
                                     })
                                     
@@ -157,7 +157,7 @@ bot.on('message', async message => {
                                             models.transacao.create({
                                                 discord_ID: id,
                                                 tipo: "compra",
-                                                valor: valorCompra,
+                                                valorTransacao: valorCompra,
                                                 ativo: ativo,
                                             })
                                             message.channel.send('Parabéns, você comprou '+args[3] + ' lotes de '+ativo+' e seu saldo agora é '+saldoNovo.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}));
@@ -185,7 +185,7 @@ bot.on('message', async message => {
                                             models.transacao.create({
                                                 discord_ID: id,
                                                 tipo: "compra",
-                                                valor: valorCompra,
+                                                valorTransacao: valorCompra,
                                                 ativo: ativo,
                                             })
                                             
@@ -288,7 +288,7 @@ bot.on('message', async message => {
                                         models.transacao.create({
                                             discord_ID: id,
                                             tipo: "venda",
-                                            valor: valorVenda,
+                                            valorTransacao: valorVenda,
                                             ativo: ativo,
                                         })
                                         message.channel.send('Parabéns, você vendeu '+args[3] + ' lotes de '+ativo+' e seu saldo agora é '+saldoNovo.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}));
@@ -320,7 +320,7 @@ bot.on('message', async message => {
                                         models.transacao.create({
                                             discord_ID: id,
                                             tipo: "venda",
-                                            valor: valorVenda,
+                                            valorTransacao: valorVenda,
                                             ativo: ativo,
                                         })
                                         message.channel.send('Parabéns, você vendeu '+args[3] + ' lotes de '+ativo+' e seu saldo agora é '+saldoNovo.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}));

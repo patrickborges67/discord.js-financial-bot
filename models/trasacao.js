@@ -7,13 +7,16 @@ const Transacao = sequelize.define('transacoe', {
         allowNull: false,   
     },
     tipo: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
     },
     valorTransacao: {
-        type: Sequelize.FLOAT
+        type: Sequelize.FLOAT,
+        allowNull: false,
     },
     ativo: {
-        type: Sequelize.TEXT
+        type: Sequelize.TEXT,
+        allowNull: false,
     }
 });
 module.exports = Transacao;
