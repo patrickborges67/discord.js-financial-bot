@@ -385,7 +385,7 @@ bot.on('message', async message => {
             carteira.then(cart => {
                 console.log(cart);
                 if(cart == null){
-                    message.channel.send(`${author} você não tem uma carteira. Crie uma com "LMF carteira`);
+                    message.channel.send(`${author} você não tem uma carteira. Crie uma com "!${prefix} carteira"`);
 
                 } else{
                     var saldo = JSON.parse(JSON.stringify(cart));
