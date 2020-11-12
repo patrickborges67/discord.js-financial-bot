@@ -7,8 +7,9 @@
     "start": "node LMF.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Patrick Borges",
   "license": "ISC",
+  "releaseVersion": "1.0.0",
   "dependencies": {
     "discord.js": "^12.4.1",
     "express": "^4.17.1",
