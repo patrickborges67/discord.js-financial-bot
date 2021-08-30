@@ -11,11 +11,13 @@ if(heroku){
     });
     console.log('heroku')
 } else {
+    let config = require ('../config.json')
+    const password = config.DBPassword;
     sequelize = new Sequelize({
         host: 'localhost',
         database: 'postgres',
         username: 'postgres',
-        password: 'postgres',
+        password: password,
         dialect: 'postgres',
         port: 5432,
         logging: true
