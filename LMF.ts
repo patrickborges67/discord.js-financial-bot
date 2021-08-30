@@ -199,16 +199,6 @@ bot.on('message', async message => {
                                 }
                             }
                        });
-                        // var ativo = new String(realMessage[2].toUpperCase()).substring(0,5);                   
-                        // var valorTotal = fechamento * args[3];
-
-                        // fechamento = fechamento.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
-                        // valorTotal = valorTotal.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'});
-
-                        // message.channel.send(`${author} parabéns, você comprou ${realMessage[3]} lotes de ${ativo} a ${fechamento} e utilizou o total de ${valorTotal} do seu saldo.`);
-                        // break; 
-                        
-                        //message.channel.send('Parabéns, você comprou '+args[3] + 'lotes de '+args[2]+' e seu saldo agora é '+saldo.saldo);
                     }
                 }
             break; 
@@ -216,7 +206,6 @@ bot.on('message', async message => {
             if(!args[2]){// Se não for informado o nome do ativo
                 message.channel.send('Por favor, informe qual ativo você quer vender.');
             } else {
-                //let ativo = ... buscar no BD e/ou API o ativo em questão
                 message.channel.send( `${author} validando os dados...`);
                 let fechamento = api(args[2]);
                 if(fechamento == null){//Se o ativo não for encontrado no request da API
@@ -264,7 +253,6 @@ bot.on('message', async message => {
                                 console.log("Quantidade nova compra ", quantidadeNova)
                                 if(quantidadeNova < 0){
                                     message.channel.send("Erro ao processar a sua solicitação");
-                                    //break;
                                 } else if(quantidadeNova == 0){
                                     map.delete(ativo);
                                     ativos = '';
@@ -335,7 +323,6 @@ bot.on('message', async message => {
                             }
                         }
                    });
-                //message.channel.send('Parabens, você vendeu 2 lotes de PETR4, lucrou 3,7% e seu saldo agora é...'); Criar tabela transações para registrar o lucro
                 }
             }
             break;
